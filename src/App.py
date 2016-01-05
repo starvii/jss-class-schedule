@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 # -*- coding: utf8 -*-
 '''
-Created on 2016骞�1鏈�5鏃�
+Created on 2016-01-05
 
 @author: starvii
 '''
 
-def printhello():
-    print('helloWorld!')
+def main():
+    pass
 
 if __name__ == '__main__':
-    printhello()
+    main()
