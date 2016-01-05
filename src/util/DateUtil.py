@@ -5,14 +5,15 @@
 from enum import Enum
 import datetime
 import time
+import sys
 import util.LogUtil
 
 log = util.LogUtil.log
 
 __DATE_FORMAT = '%Y%m%d'
-__DATE_DELTA = datetime.timedelta(days = 1)
+# __DATE_DELTA = datetime.timedelta(days = 1)
 
-class WeekDays(Enum):
+class WeekDays(Enum): # as same as time_struct.wday
     MON = 0
     TUE = 1
     WED = 2
@@ -43,7 +44,15 @@ def s2d(strDate, formatter = None):
 def weekday(strDate):
     return time.strptime(strDate, __DATE_FORMAT).tm_wday
 
-class DateUtil(object):
+def getWeekNum(strCurrentDate, strFisrtDate):
+    currentDate = s2d(strCurrentDate)
+    firstDate = s2d(strFisrtDate)
+    delta = currentDate - firstDate
+    days = delta.days
+    weeks = days // 7 + 1
+    return weeks
+
+class DateListGenerator(object):
 
     def __init__(self):
         self.__DATE_DELTA = datetime.timedelta(days = 1)
@@ -83,8 +92,9 @@ class DateUtil(object):
                 else: # single date
                     s2d(d) # checking date format valid.
                     dateSet.add(d)
-            except Exception as e:
-                log.debug(e)
+            except Exception:
+                info = sys.exc_info()
+                log.error(info)
         
         return dateSet, weekdaySet
     
