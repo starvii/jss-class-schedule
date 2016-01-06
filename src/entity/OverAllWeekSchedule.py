@@ -1,4 +1,5 @@
 import sys
+import util.ValueUtil as ValueUtil
 import util.LogUtil
 
 log = util.LogUtil.log
@@ -37,7 +38,7 @@ class OverAllWeekScheduleObject(object):
             o.classes = l[3]
             try:
                 wp = l[4].replace(' ', '').split('-')
-                o.weekPeriod = (wp[0], wp[1])
+                o.weekPeriod = (int(ValueUtil.delNonNumeric(wp[0])), int(ValueUtil.delNonNumeric(wp[1])))
             except Exception:
                 o.weekPeriod = None
             return o
