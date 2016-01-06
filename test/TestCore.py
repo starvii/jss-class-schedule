@@ -1,5 +1,5 @@
 import unittest
-import core.core as c
+import core.Core as c
 from util.LogUtil import log
 
 class Test(unittest.TestCase):

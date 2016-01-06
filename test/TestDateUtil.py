@@ -14,7 +14,7 @@ class Test(unittest.TestCase):
 
     def testDateListGenerator(self):
         d = du.DateListGenerator()
-        l = d.generateDateList('20160101 - 20160201', '20160201, SAT, SUN')
+        l = d.generateDateList('20150914 - 20160125', 'SAT, SUN, 20151001 - 20151007, 20160101')
         print(l)
 
     def testGetWeekCount(self):

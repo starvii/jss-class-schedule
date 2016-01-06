@@ -16,9 +16,9 @@ class WeekDays(Enum): # as same as time_struct.wday
     SUN = '日'
 
 def renderSchedule(scheduleList):
-    l = [('周次', '日期', '星期', '节次', '授课内容', '学时', '授课教师', '实习内容', '学时')]
+    l = ['\t'.join(('周次', '日期', '星期', '节次', '授课内容', '学时', '授课教师', '实习内容', '学时'))]
     for s in scheduleList:
-        weekNum = s['weekNum']
+        weekNum = str(s['weekNum'])
         date = DateUtil.d2s(DateUtil.s2d(s['date']), __DATE_FORMAT)
         weekDay = WeekDays[s['weekDay']].value
         dayPeriod = s['dayPeriod']
@@ -26,6 +26,6 @@ def renderSchedule(scheduleList):
         teacher = ''
         opera_content = ''
         hours = ''
-        r = (weekNum, date, weekDay, dayPeriod, tech_content, teacher, opera_content, hours)
+        r = '\t'.join((weekNum, date, weekDay, dayPeriod, tech_content, teacher, opera_content, hours))
         l.append(r)
-    return l
+    return '\n'.join(l)

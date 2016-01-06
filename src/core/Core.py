@@ -8,7 +8,7 @@ def generateSchedule(dateList, weekScheduleList):
     for date in dateList:
         w = DateUtil.weekday(date)
         for ws in weekScheduleList:
-            if DateUtil.WeekDays[ws.weekDay] == w:
+            if DateUtil.WeekDays[ws.weekDay].value == w:
                 s = {'weekNum':DateUtil.getWeekNum(date, dateList[0]),
                      'date':date, 'weekDay':ws.weekDay, 'dayPeriod':ws.dayPeriod}
                 l.append(s)
