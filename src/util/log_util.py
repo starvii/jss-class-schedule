@@ -15,4 +15,4 @@ def getLogger(name = None):
     logger.setLevel(logging.DEBUG)
     return logger
 
-log = getLogger() # default logger
+default_logger = getLogger() # default logger

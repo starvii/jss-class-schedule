@@ -1,5 +1,5 @@
 import unittest
-import util.DateUtil as du
+import util.date_util as du
 
 class Test(unittest.TestCase):
 
@@ -14,11 +14,11 @@ class Test(unittest.TestCase):
 
     def testDateListGenerator(self):
         d = du.DateListGenerator()
-        l = d.generateDateList('20150914 - 20160125', 'SAT, SUN, 20151001 - 20151007, 20160101')
+        l = d.generate_date_list('{20150914 - 20160125} - {SAT, SUN, 20151001 - 20151007, 20160101} + {20151003}')
         print(l)
 
     def testGetWeekCount(self):
-        assert du.getWeekNum('20151026', '20150914') == 7
+        assert du.week_num('20151026', '20150914') == 7
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
