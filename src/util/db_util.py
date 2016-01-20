@@ -3,23 +3,25 @@ import uuid
 import os
 import time
 import threading
-import struct
 
 time_stamp_int = 0
 time_stamp_inc = 0
 lock = threading.Lock()
 
+def __int2bytes(data, length):
+    bl = [(data >> (8 * i)) & 0xFF for i in range(length)][::-1]
+    b = bytes(bl)
+    return b
+
 # same as MONGODB ObjectID (big in byteorader)
 # 00 01 02 03    04 05 06    07 08    09 10 11
 # timestamp      mac         pid      inc
 
-def gen_pk(integer = True):
+def gen_pk(integer = True, inc_mac = True, inc_pid = True):
     global time_stamp_int
     global time_stamp_inc
-    pid = os.getpid()
     ts = int(time.time())
-    mac = uuid.getnode()
-    
+    # lock variable
     lock.acquire()
     if time_stamp_int == ts:
         time_stamp_inc += 1
@@ -27,14 +29,26 @@ def gen_pk(integer = True):
         time_stamp_int = ts
         time_stamp_inc = 0
     lock.release()
+    # integer to bytes
+    t = __int2bytes(ts, 4)
     
-    m = [(mac >> (8 * i)) & 0xFF for i in range(3)][::-1]
-    n = [(time_stamp_inc >> (8 * i)) & 0xFF for i in range(3)][::-1]
-    idbyte = struct.pack('>LBBBHBBB', ts, m[0], m[1], m[2], \
-                     pid, n[0], n[1], n[2])
+    # not compatible of python2
+    bl = [t]
+    if inc_mac:
+        mac = uuid.getnode()
+        m = __int2bytes(mac, 3)
+        bl.append(m)
+    if inc_pid:
+        pid = os.getpid()
+        p = __int2bytes(pid, 2)
+        bl.append(p)
+    n = __int2bytes(time_stamp_inc, 3)
+    bl.append(n)
+    b = b''.join(bl)
+    # return int or base64string
     if integer:
-        return int.from_bytes(idbyte, 'big')
+        return int.from_bytes(b, 'big')
     else:
-        idstr = base64.b64encode(idbyte)
-        idstr = idstr.replace(b'/', b'_').replace(b'+', b'-').replace(b'=', b'')
-        return idstr.decode('utf-8')
+        pk = base64.b64encode(b)
+        pk = pk.replace(b'/', b'_').replace(b'+', b'-').replace(b'=', b'')
+        return pk.decode('utf-8')
