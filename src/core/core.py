@@ -1,5 +1,13 @@
 import util.date_util as DateUtil
 
+'''
+模块主要工作流程：
+1、载入数据（需要编排课程表的年份）
+2、查找冲突域
+3、每个冲突域进行单独计算（可以采用模拟退火算法、遗传算法等）
+4、生成最优近似解
+'''
+
 def generate_schedule(datelist, week_schedule_list):
     l = []
     for date in datelist:
@@ -15,3 +23,8 @@ def generate_schedule(datelist, week_schedule_list):
                  'date':date, 'week_day':ws.week_day, 'day_period':ws.day_period}
             l.append(s)
     return l
+
+def conflict_set(key):
+    '''查找冲突域
+    '''
+    pass

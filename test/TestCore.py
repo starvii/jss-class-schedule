@@ -2,8 +2,6 @@ import unittest
 import core.core as c
 
 class Test(unittest.TestCase):
-
-
     def setUp(self):
         pass
 

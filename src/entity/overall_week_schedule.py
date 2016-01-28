@@ -3,20 +3,12 @@ import util.value_util as ValueUtil
 from util.log_util import default_logger as log
 
 class OverAllWeekScheduleObject(object):
-    '''
-    classdocs
-    '''
-
-
     def __init__(self):
-        '''
-        Constructor
-        '''
-        self.course_name = ''
-        self.week_day = ''
-        self.day_period = ''
-        self.classes = ''
-        self.week_period = ''
+        self.__course_name = ''
+        self.__week_day = ''
+        self.__day_period = ''
+        self.__classes = ''
+        self.__week_period = ''
 
     @staticmethod
     def obejct_from_string(string):
@@ -44,3 +36,48 @@ class OverAllWeekScheduleObject(object):
         except Exception:
             info = sys.exc_info()
             log.error(info)
+
+    def get_course_name(self):
+        return self.__course_name
+
+    def get_week_day(self):
+        return self.__week_day
+
+    def get_day_period(self):
+        return self.__day_period
+
+    def get_classes(self):
+        return self.__classes
+
+    def get_week_period(self):
+        return self.__week_period
+
+    def set_course_name(self, value):
+        self.__course_name = value
+
+    def set_week_day(self, value):
+        self.__week_day = value
+
+    def set_day_period(self, value):
+        self.__day_period = value
+
+    def set_classes(self, value):
+        self.__classes = value
+
+    def set_week_period(self, value):
+        self.__week_period = value
+
+    course_name = property(get_course_name, set_course_name, \
+                           "course_name's docstring")
+    week_day = property(get_week_day, set_week_day, "week_day's docstring")
+    day_period = property(get_day_period, set_day_period, \
+                          "day_period's docstring")
+    classes = property(get_classes, set_classes, "classes's docstring")
+    week_period = property(get_week_period, set_week_period, \
+                           "week_period's docstring")
+
+def test():
+    print('HelloWorld!')
+
+if __name__ == '__main__':
+    test()
