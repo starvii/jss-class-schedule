@@ -1,58 +1,51 @@
-from core.abstract.node import NodeWithNonOrderedChildren
-from core.abstract.node import NodeWithOrderedChildren
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, SmallInteger, String, BigInteger, Binary, \
+    LargeBinary, Text, TIMESTAMP
+from sqlalchemy import Sequence
 
-class Course(NodeWithNonOrderedChildren):
-    ''' One course contains non-ordered charts.
-    But it is recommemd that to array charts in the order. '''
-    def __init__(self):
-        pass
+Base = declarative_base()
 
-class Chart(NodeWithOrderedChildren):
-    ''' One chart contains ordered lessons. '''
-    def __init__(self):
-        pass
+class Lesson(Base):
+    __tablename__ = 'lessons'
+    dbid = Column(BigInteger, Sequence('lesson_id_seq'), primary_key=True)
+    id = Column(Binary(16))
+    pid = Column(Binary(16))
+    path = Column(LargeBinary)
+    num = Column(String(30))
+    name = Column(String(100))
+    lesson_type = Column(SmallInteger)
+    lesson_time = Column(SmallInteger)
+    cmt = Column(Text)
+    available = Column(SmallInteger)
+    createtime = Column(TIMESTAMP)
+    updatetime = Column(TIMESTAMP)
+    
+    def __repr__(self):
+        return '<User(dbid={},id={},pid={},path={},num={},name={},type={},time={},cmt={},available={},createtime={}, updatetime={})>' \
+            .format(self.dbid, self.id, self.pid, self.path, self.num, \
+                    self.name, self.lesson_type, self.lesson_time, self.cmt, \
+                    self.available, self.createtime, self.updatetime)
 
-class Lesson(object):
-    def __init__(self):
-        self.__lesson_name = ''
-        self.__teacher = ''
-        self.__lesson_time = 0
+class Dependency(Base):
+    __tablename__ = 'lesson_dependencies'
+    dbid = Column(BigInteger, Sequence('lesson_dependency_id_seq'), \
+                  primary_key=True)
+    id = Column(Binary(16))
+    tar_id = Column(Binary(16))
+    dep_id = Column(Binary(16))
+    cmt = Column(Text)
+    available = Column(SmallInteger)
+    createtime = Column(TIMESTAMP)
+    updatetime = Column(TIMESTAMP)
 
-    def get_lesson_name(self):
-        return self.__lesson_name
-
-
-    def get_teacher(self):
-        return self.__teacher
-
-
-    def get_lesson_time(self):
-        return self.__lesson_time
-
-
-    def set_lesson_name(self, value):
-        self.__lesson_name = value
-
-
-    def set_teacher(self, value):
-        self.__teacher = value
-
-
-    def set_lesson_time(self, value):
-        self.__lesson_time = value
-
-
-    def del_lesson_name(self):
-        del self.__lesson_name
-
-
-    def del_teacher(self):
-        del self.__teacher
-
-
-    def del_lesson_time(self):
-        del self.__lesson_time
-
-    lesson_name = property(get_lesson_name, set_lesson_name, del_lesson_name, "lesson_name's docstring")
-    teacher = property(get_teacher, set_teacher, del_teacher, "teacher's docstring")
-    lesson_time = property(get_lesson_time, set_lesson_time, del_lesson_time, "lesson_time's docstring")
+class Lesson_Teacher(Base):
+    __tablename__ = 'lesson_teacher'
+    dbid = Column(BigInteger, Sequence('lesson_teacher_id_seq'), \
+                  primary_key=True)
+    id = Column(Binary(16))
+    lesson_id = Column(Binary(16))
+    teacher_id = Column(Binary(16))
+    cmt = Column(Text)
+    available = Column(SmallInteger)
+    createtime = Column(TIMESTAMP)
+    updatetime = Column(TIMESTAMP)

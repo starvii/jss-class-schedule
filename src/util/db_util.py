@@ -3,6 +3,7 @@ import uuid
 import os
 import time
 import threading
+from util import value_util
 
 # const
 TINY_INT = -128, 127, 1
@@ -64,8 +65,7 @@ def gen_object_id(id_type = 'b64'):
     if idt == 'I':
         return int.from_bytes(b, 'big')
     elif idt == 'H':
-        hl = ['{:02X}'.format(c) for c in b]
-        h = ''.join(hl)
+        h = value_util.str2hex(b)
         if id_type == 'h': return h
         else: return '0x' + h
     elif idt == 'B':
