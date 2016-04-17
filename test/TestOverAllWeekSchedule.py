@@ -1,5 +1,5 @@
 import unittest
-import entity.overall_week_schedule as s
+import entity.temp.overall_week_schedule as s
 from util.log_util import default_logger as log
 
 class Test(unittest.TestCase):

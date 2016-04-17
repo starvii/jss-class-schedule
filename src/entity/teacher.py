@@ -1,33 +1,16 @@
-class Course(object):
+from sqlalchemy import Column, SmallInteger, String, BigInteger, Binary, \
+    Text, TIMESTAMP
+from sqlalchemy import Sequence
+from entity import Base
 
-    def __init__(self):
-        pass
-
-
-class Lesson(object):
-    def __init__(self):
-        self.__teacher_name = ''
-        self.__teacher_number = ''
-
-    def get_teacher_name(self):
-        return self.__teacher_name
-
-    def get_teacher_number(self):
-        return self.__teacher_number
-
-    def set_teacher_name(self, value):
-        self.__teacher_name = value
-
-    def set_teacher_number(self, value):
-        self.__teacher_number = value
-
-    teacher_name = property(get_teacher_name, set_teacher_name, None, None)
-    teacher_number = property(get_teacher_number, set_teacher_number, None, None)
-
-class OrderedLessons(object):
-    def __init__(self):
-        pass
-
-class NonOrderedLessons(object):
-    def __init__(self):
-        pass
+class Teacher(Base):
+    __tablename__ = 'teachers'
+    dbid = Column(BigInteger, Sequence('teacher_id_seq'), primary_key=True)
+    id = Column(Binary(16))
+    teacher_type = Column(SmallInteger)
+    code = Column(String(100))
+    name = Column(String(100))
+    cmt = Column(Text)
+    available = Column(SmallInteger)
+    createtime = Column(TIMESTAMP)
+    updatetime = Column(TIMESTAMP)

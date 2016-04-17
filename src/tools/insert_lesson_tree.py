@@ -71,8 +71,6 @@ if __name__ == '__main__':
         e.available = 1
     print(array)
 
-    root.metadata.create_all(engine)
-
     Session = sessionmaker(bind=engine)
     session = Session()
     session.add_all(array)

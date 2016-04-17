@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from util.log_util import default_logger as log
+from entity import Base
 
 USER = 'db_schedule'
 PASSWORD = 'db_schedule'
@@ -25,3 +26,5 @@ except Exception as e:
         full_url = protocol + url
         engine = create_engine(full_url, echo=True)
 log.debug(full_url)
+
+Base.metadata.create_all(engine)

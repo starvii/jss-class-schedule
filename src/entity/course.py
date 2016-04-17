@@ -1,9 +1,8 @@
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, SmallInteger, String, BigInteger, Binary, \
     LargeBinary, Text, TIMESTAMP
 from sqlalchemy import Sequence
+from entity import Base
 
-Base = declarative_base()
 
 class Lesson(Base):
     __tablename__ = 'lessons'
@@ -45,6 +44,22 @@ class Lesson_Teacher(Base):
     id = Column(Binary(16))
     lesson_id = Column(Binary(16))
     teacher_id = Column(Binary(16))
+    cmt = Column(Text)
+    available = Column(SmallInteger)
+    createtime = Column(TIMESTAMP)
+    updatetime = Column(TIMESTAMP)
+
+class MainCourse(Base):
+    __tablename__ = 'main_courses'
+    dbid = Column(BigInteger, Sequence('main_course_id_seq'), \
+                  primary_key=True)
+    id = Column(Binary(16))
+    semester_id = Column(Binary(16))
+    dept_id = Column(Binary(16))
+    class_id = Column(Binary(16))
+    name = Column(String(100))
+    course_id = Column(Binary(16))
+    course_span = Column(String(100))
     cmt = Column(Text)
     available = Column(SmallInteger)
     createtime = Column(TIMESTAMP)

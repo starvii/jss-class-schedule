@@ -4,7 +4,7 @@
 import sys
 import util.date_util as DateUtil
 import core.core as Core
-import entity.overall_week_schedule as schedule
+import entity.temp.overall_week_schedule as schedule
 import renderer.schedule_renderer as render
 
 def main():
