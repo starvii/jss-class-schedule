@@ -1,0 +1,14 @@
+body {
+	padding-top: 5px;
+	text-align: center;
+}
+
+#menu {
+	width: 100%;
+	text-align: left;
+}
+
+.container {
+	margin: 0px auto;
+	width: 960px;
+}

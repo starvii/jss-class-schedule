@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="teacher">
+<head>
+<meta charset="utf-8" />
+<title>教师管理</title>
+<link href="../vendor/pure/pure-min.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+	<div id="menu" class="pure-menu pure-menu-horizontal">
+		<a href="#" class="pure-menu-heading pure-menu-link">LOGO</a>
+		<ul class="pure-menu-list">
+			<li class="pure-menu-item"><a href="#/" class="pure-menu-link">教师列表</a></li>
+			<li class="pure-menu-item"><a href="#/new" class="pure-menu-link">添加教师</a></li>
+		</ul>
+	</div>
+	<div class="container">
+		<div ng-view></div>
+	</div>
+
+	<!-- JavaScript -->
+	<script src="../vendor/angularjs/angular.min.js"></script>
+	<script src="../js/teacher/app.js"></script>
+	<script src="../js/teacher/controllers.js"></script>
+	<script src="../js/teacher/services.js"></script>
+	<script src="../js/teacher/filters.js"></script>
+	<script src="../js/teacher/directives.js"></script>
+</body>
+</html>
