@@ -1,11 +1,127 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" id="v1">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>this is title</title>
+<link href="vendor/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<title>schedule utility</title>
 </head>
 <body>
-	<h1>hello world!</h1>
+	<nav id="menu" class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#"> <img alt="LOGO"></a>
+				<ul class="nav navbar-nav">
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<form>
+			<div class="form-group">
+				<label for="calendar">教学日历</label>
+				<!-- {20160912 - 20170129} - {SAT, SUN, 20160915 - 20160916, 20161001 - 20161007, 20161110 - 20161112, 20170102} + {20160918(20160916), 20161008(20161006), 20161009(20161007)} -->
+				<textarea id="calender" rows="5" class="form-control" style="resize: none;">{20160912 - 20170129} - {SAT, SUN, 20160915 - 20160916, 20161001 - 20161007, 20161110 - 20161112, 20170102} + {20160918, 20161008, 20161009}</textarea>
+				<p class="help-block">{总时间范围} - {需要排除的日期} + {更换的日期}</p>
+			</div>
+			<div class="form-group">
+				<label for="lesson">课程名称</label>
+				<input id="lesson" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label for="class">教学班级</label>
+				<input id="class" class="form-control"/>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">课程每周安排</div>
+				<div class="panel-body">
+					<div class="form-inline" style="margin-bottom: 20px;">
+						<label>每周课程数</label>
+						<input id="timeTableCount" type="text" class="form-control" />
+						<button type="button" class="btn btn-success" @click="genTimeTable()">确定</button>
+					</div>
+					<ul id="timeTableList">
+						<li v-for="n in timeTableCount" track-by="$index" class="form-inline time-table">
+							<label>星期</label>
+							<select class="form-control time-table-week">
+								<option value="MON">一</option>
+								<option value="TUE">二</option>
+								<option value="WED">三</option>
+								<option value="THU">四</option>
+								<option value="FRI">五</option>
+								<option value="SAT">六</option>
+								<option value="SUN">日</option>
+							</select>
+							&nbsp;&nbsp;
+							<label>节次</label>
+							<select class="form-control time-table-period">
+								<option>1-2</option>
+								<option>3-4</option>
+								<option>3-5</option>
+								<option>6-7</option>
+								<option>6-8</option>
+								<option>6-9</option>
+								<option>8-9</option>
+								<option>10-11</option>
+								<option>10-12</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<button type="button" class="btn btn-primary" style="margin-top: 50px;" @click="makeTemplate()">生成课程表模板</button>
+		</form>
+		<hr />
+		<div class="form-group">
+			<label for="result">课程表模板</label>
+			<textarea id="result" rows="10" class="form-control" readonly="readonly" style="resize: none;"></textarea>
+			<p class="help-block">将以上内容保存为csv文件，可使用excel打开</p>
+		</div>
+	</div>
+	<script type="text/javascript" src="vendor/jquery/1.12.1/jquery.min.js"></script>
+	<script type="text/javascript" src="vendor/vuejs/vue.min.js"></script>
+	<script>
+	var vm = new Vue({
+		el: '#v1',
+		data: {
+			timeTableCount : 1,
+		},
+		methods: {
+			genTimeTable : function () {
+				this.timeTableCount = parseInt($('#timeTableCount').val());
+			},
+			makeTemplate : function () {
+				var calender = $('#calender').val();
+				var lesson = $('#lesson').val();
+				var tclass= $('#class').val();
+				var timetableweek = new Array();
+				$('.time-table-week').each(function (index, element) {
+					timetableweek.push($(element).val());
+				});
+				var timetableperiod = new Array();
+				$('.time-table-period').each(function (index, element) {
+					timetableperiod.push($(element).val());
+				});
+				var timetable = new Array();
+				for(i = 0; i < timetableweek.length; i++) {
+					timetable.push(new Array(timetableweek[i], timetableperiod[i]));
+				}
+				var senddata = {
+					'calender' : calender,
+					'lesson' : lesson,
+					'class' : tclass,
+					'timetable' : timetable,
+				};
+				var json = JSON.stringify(senddata);
+				$.post('template/make', json, function(recvdata, status) {
+					if ('success' == status) {
+						$('#result').val(recvdata);
+					}
+				});
+			},
+		}
+	});
+	</script>
 </body>
 </html>
